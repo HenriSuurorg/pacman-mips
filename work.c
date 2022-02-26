@@ -2,58 +2,13 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
-int count = 0;
-
-char textstring[] = "text, more text, and even more text!";
-
-int getbtns( void ){
-  int r;
-  r = (PORTF >> 1) & 0x1; // check button 1
-  r = r | ((PORTD >> 4) & 0xE); // check button 2-4
-
-  return r&0xF;
-}
 
 /* Interrupt Service Routine */
 void user_isr( void )
 {
-    IFSCLR(0) = (1 << 8);
-    count++;
+  IFSCLR(0) = (1 << 8);
+  checkButtons();
 
-    if(count == 50){
-      clearDisplay();
-      display_image(0, display);
-      count = 0;
-    }
-
-    int btns = getbtns();
-
-    if (btns){
-
-      if(btns & 0x8){
-        clearDisplay();
-        setDisplay2d(0, 16, 128, 16);
-        display_image(0, display);
-      }
-
-      if(btns & 0x4){
-        clearDisplay();
-        setDisplay2d(0, 0, 64, 32);
-        display_image(0, display);
-      }
-    
-      if(btns & 0x2){
-        clearDisplay();
-        setDisplay2d(64, 0, 64, 32);
-        display_image(0, display);
-      }
-
-      if(btns & 0x1){
-        clearDisplay();
-        setDisplay2d(0, 0, 128, 16);
-        display_image(0, display);
-      }
-  }
 }
 
 /* Lab-specific initialization goes here */
