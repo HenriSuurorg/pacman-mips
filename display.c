@@ -6,7 +6,9 @@
 
 
 void setDisplay2d(int x, int y, int width, int height)  {
-    int r, c;
+    int r, c, page;
+    uint8_t powerOfTwo = 1;
+    uint8_t oledN = 0;
 
     for (r = 0; r < 32; r++) {
         for(c = 0; c < 128; c++){
@@ -14,12 +16,6 @@ void setDisplay2d(int x, int y, int width, int height)  {
                 display2d[r][c] = 1;
         }
     }
-}
-
-void display2dToArray () {
-    int r, c, page;
-    uint8_t powerOfTwo = 1;
-    uint8_t oledN = 0;
 
     for (page = 0; page < 4; page++){
         for(c = 0; c < 128; c++){
@@ -35,6 +31,7 @@ void display2dToArray () {
             display[c + page * 128] = oledN;
         }
     }
+
 }
 
 void clearDisplay(){

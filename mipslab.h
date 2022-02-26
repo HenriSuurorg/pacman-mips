@@ -55,7 +55,6 @@ int getsw(void);
 void enable_interrupt(void);
 
 void setDisplay2d(int, int, int, int);
-void display2dToArray(void);
 void clearDisplay(void);
 uint8_t display2d[32][128];
 uint8_t display[512];
