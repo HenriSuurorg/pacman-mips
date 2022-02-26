@@ -21,7 +21,7 @@ void labinit( void )
   T2CONSET = 0 << 15; // turn timer on
   TMR2 = 0; // set timer to 0
   T2CONSET = 0x70; // set the prescaling to 1:256 
-  PR2 = 31250; // set period
+  PR2 = 7812; // set period to 25ms;
   IFSCLR(0) = 1 << 8; // set timer interupt flag to 0
   T2CONSET = 1 << 15; // start the timer
   IECSET(0) = (1 << 8); // timer 2 interrupt enable to 1 
