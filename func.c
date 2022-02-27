@@ -2,25 +2,41 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
-/* quicksleep:
-   A simple function to create a small delay.
-   Very inefficient use of computing resources,
-   but very handy in some special cases. */
+void displayGhost(x, y);
+void displayPacman(x, y);
+
 void quicksleep(int cyc) {
 	int i;
 	for(i = cyc; i > 0; i--);
 }
 
-entity pacman = {.x = 0, .y = 0, .dir = 'e'};
-entity ghost1 = {.x = 128, .y = 32, .dir = 'w'};
+
+entity pacman = {.x = 0, .y = 0, .height = 5, .width = 5, .dir = 'e'};
 
 void checkButtons(){
   int btns; 
   btns = (PORTF >> 1) & 0x1; // check button 1
   btns = btns | ((PORTD >> 4) & 0xE); // check button 2-4
-  displayGhost(ghost1.x, ghost1.y);
-
+/*
   if (btns){
+    if(btns & 0x8){
+      pacman.dir = 'w';
+    }
+
+    if(btns & 0x4){
+      pacman.dir = 's';
+    }
+    
+    if(btns & 0x2){
+      pacman.dir = 'n';
+    }
+
+    if(btns & 0x1){
+      pacman.dir = 'e';
+    }
+  } */
+
+    if (btns){
     if(btns & 0x8){
       clearDisplay();
       pacman.x = pacman.x - 1;
@@ -47,20 +63,27 @@ void checkButtons(){
   }
 }
 
-void displayGhost(x, y){
-  setDisplay2d(x + 1, y + 0, 2, 0);
-  setDisplay2d(x + 0, y + 1, 0, 3);
-  setDisplay2d(x + 4, y + 1, 0, 3);
-  setDisplay2d(x + 1, y + 2, 2, 1);
-  setDisplay2d(x + 2, y + 1, 0, 3);
-  display_image(0, display);
+
+
+void updatePacman(){
+  if(pacman.dir == 'w'){
+    pacman.x = pacman.x - 1;
+  }
+  if(pacman.dir == 's'){
+    pacman.y = pacman.y - 1;
+  }
+  if(pacman.dir == 'n'){
+    pacman.y = pacman.y + 1;
+  }
+  if(pacman.dir == 'e'){
+    pacman.x = pacman.x + 1;
+  }
 }
 
-void displayPacman(x, y){
-  setDisplay2d(x + 1, y + 0, 3, 0);
-  setDisplay2d(x + 0, y + 1, 3, 0);
-  setDisplay2d(x + 0, y + 2, 2, 0);
-  setDisplay2d(x + 0, y + 3, 3, 0);
-  setDisplay2d(x + 1, y + 4, 3, 0);
-  display_image(0, display);
+/* Interrupt Service Routine */
+void user_isr( void )
+{
+  IFSCLR(0) = (1 << 8);
+  checkButtons();
+  //updatePacman();
 }

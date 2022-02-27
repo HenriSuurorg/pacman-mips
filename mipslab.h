@@ -6,7 +6,6 @@ void display_update(void);
 uint8_t spi_send_recv(uint8_t data);
 
 /* Declare lab-related functions from mipslabfunc.c */
-void labwork(void);
 void display_debug( volatile int * const addr );
 
 /* Declare bitmap array containing font */
@@ -26,10 +25,15 @@ void checkButtons();
 
 void displayGhost(int, int);
 void displayPacman(int, int);
+void updatePacman();
 
 typedef struct entity entity;
 struct entity{
    int x;
    int y;
+   int nextX;
+   int nextY;
+   int height;
+   int width;
    char dir; // direction: either 'n', 'e', 's' or 'w'
 };

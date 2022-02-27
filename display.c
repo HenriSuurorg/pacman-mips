@@ -74,8 +74,8 @@ void setDisplay2d(int x, int y, int width, int height)  {
     uint8_t powerOfTwo = 1;
     uint8_t oledN = 0;
 
-    for (r = 0; r < 32; r++) {
-        for(c = 0; c < 128; c++){
+    for (r = y; r < 32; r++) {
+        for(c = x; c < 128; c++){
             if(r >= y && r <= (y + height) && c >= x && c <= (x + width))
                 display2d[r][c] = 1;
         }

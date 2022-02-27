@@ -1,18 +1,26 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
-#include "mipslab.h"  /* Declatations for these labs */
+#include "mipslab.h"
 
-
-/* Interrupt Service Routine */
-void user_isr( void )
-{
-  IFSCLR(0) = (1 << 8);
-  checkButtons();
+void displayGhost(x, y){
+  setDisplay2d(x + 1, y + 0, 2, 0);
+  setDisplay2d(x + 0, y + 1, 0, 3);
+  setDisplay2d(x + 4, y + 1, 0, 3);
+  setDisplay2d(x + 1, y + 2, 2, 1);
+  setDisplay2d(x + 2, y + 1, 0, 3);
+  display_image(0, display);
 }
 
-/* Lab-specific initialization goes here */
-void labinit( void )
-{
+void displayPacman(x, y){
+  setDisplay2d(x + 1, y + 0, 3, 0);
+  setDisplay2d(x + 0, y + 1, 3, 0);
+  setDisplay2d(x + 0, y + 2, 2, 0);
+  setDisplay2d(x + 0, y + 3, 3, 0);
+  setDisplay2d(x + 1, y + 4, 3, 0);
+  display_image(0, display);
+}
+
+void labinit( void ){
   TRISD = TRISD & 0xf01f;
   TRISD += 0xfe0;
   TRISF = TRISF | (0x20);
@@ -27,12 +35,6 @@ void labinit( void )
   IPCSET(2) = 0x1f; // set timer2 interrupt priority and sub-priority control to 1 
 
   enable_interrupt();
-
-
   clearDisplay();
-}
-
-/* This function is called repetitively from the main program */
-void labwork( void )
-{
+  display_image(0, display);
 }
