@@ -11,12 +11,14 @@ void quicksleep(int cyc) {
 	for(i = cyc; i > 0; i--);
 }
 
-pman pacman = {.x = 0, .y = 0};
+entity pacman = {.x = 0, .y = 0, .dir = 'e'};
+entity ghost1 = {.x = 128, .y = 32, .dir = 'w'};
 
 void checkButtons(){
   int btns; 
   btns = (PORTF >> 1) & 0x1; // check button 1
   btns = btns | ((PORTD >> 4) & 0xE); // check button 2-4
+  displayGhost(ghost1.x, ghost1.y);
 
   if (btns){
     if(btns & 0x8){
