@@ -3,11 +3,6 @@
 #include "mipslab.h"  /* Declatations for these labs */
 
 int main(void) {
-        /*
-	  This will set the peripheral bus clock to the same frequency
-	  as the sysclock. That means 80 MHz, when the microcontroller
-	  is running at 80 MHz. Changed 2017, as recommended by Axel.
-	*/
 	SYSKEY = 0xAA996655;  /* Unlock OSCCON, step 1 */
 	SYSKEY = 0x556699AA;  /* Unlock OSCCON, step 2 */
 	while(OSCCON & (1 << 21)); /* Wait until PBDIV ready */
@@ -21,7 +16,7 @@ int main(void) {
 	TRISECLR = 0xFF;
 	PORTE = 0x0;
 	
-	/* Output pins for display signals */
+	/* Output pins for dislay signals */
 	PORTF = 0xFFFF;
 	PORTG = (1 << 9);
 	ODCF = 0x0;
@@ -46,13 +41,7 @@ int main(void) {
 	SPI2CONSET = 0x8000;
 	
 	display_init();
-	
-	
 	labinit(); /* Do any lab-specific initialization */
 
-	while( 1 )
-	{
-	  labwork(); /* Do lab-specific things again and again */
-	}
 	return 0;
 }
