@@ -8,7 +8,6 @@ void user_isr( void )
 {
   IFSCLR(0) = (1 << 8);
   checkButtons();
-
 }
 
 /* Lab-specific initialization goes here */
@@ -29,8 +28,8 @@ void labinit( void )
 
   enable_interrupt();
 
+
   clearDisplay();
-  display_image(0, display);
 }
 
 /* This function is called repetitively from the main program */

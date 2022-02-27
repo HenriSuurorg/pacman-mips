@@ -31,9 +31,21 @@ extern char textbuffer[4][16];
 
 void enable_interrupt(void);
 
-void checkButtons(void);
-
 void setDisplay2d(int, int, int, int);
 void clearDisplay(void);
 uint8_t display2d[32][128];
 uint8_t display[512];
+
+void checkButtons();
+
+void displayGhost(int, int);
+void displayPacman(int, int);
+
+typedef struct pman pman;
+
+struct pman{
+   int x;
+   int y;
+};
+
+pman pacman;
