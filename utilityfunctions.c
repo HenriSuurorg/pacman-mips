@@ -3,21 +3,40 @@
 #include "mipslab.h"
 
 void displayGhost(x, y){
-  setDisplay2d(x + 1, y + 0, 2, 0);
-  setDisplay2d(x + 0, y + 1, 0, 3);
-  setDisplay2d(x + 4, y + 1, 0, 3);
-  setDisplay2d(x + 1, y + 2, 2, 1);
-  setDisplay2d(x + 2, y + 1, 0, 3);
-  display_image(0, display);
+  int i;
+  for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
+  int r, c, page;
+  uint8_t powerOfTwo = 1;
+  uint8_t oledN = 0;
+
+  display2d[y + 1][x];
+  display2d[y + 1][x + 2];
+  display2d[y + 1][x + 4];
+
+  for (i = 0; i < 5; i++) display2d[y + 2][x + i] = 1;
+
+  display2d[y + 3][x];
+  display2d[y + 3][x + 2];
+  display2d[y + 3][x + 4];
+
+  for (i = 0; i < 5; i++) display2d[y + 4][x + i] = 1;
 }
 
 void displayPacman(x, y){
-  setDisplay2d(x + 1, y + 0, 3, 0);
-  setDisplay2d(x + 0, y + 1, 3, 0);
-  setDisplay2d(x + 0, y + 2, 2, 0);
-  setDisplay2d(x + 0, y + 3, 3, 0);
-  setDisplay2d(x + 1, y + 4, 3, 0);
-  display_image(0, display);
+  int i;
+
+  for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
+  int r, c, page;
+  uint8_t powerOfTwo = 1;
+  uint8_t oledN = 0;
+
+  for (i = 1; i < 5; i++) display2d[y][x + i] = 1;
+  for (i = 0; i < 3; i++) display2d[y + 1][x + i] = 1;
+  for (i = 0; i < 2; i++) display2d[y + 2][x + i] = 1;
+  for (i = 0; i < 3; i++) display2d[y + 3][x + i] = 1;
+  for (i = 1; i < 5; i++) display2d[y + 4][x + i] = 1;
+
+  for (i = 0; i < 5; i++) display2d[y + 4][x + i] = 1;
 }
 
 void labinit( void ){
@@ -28,7 +47,7 @@ void labinit( void ){
   T2CONSET = 0 << 15; // turn timer on
   TMR2 = 0; // set timer to 0
   T2CONSET = 0x70; // set the prescaling to 1:256 
-  PR2 = 7812; // set period to 25ms;
+  PR2 = 31250/8; // set period to 25ms;
   IFSCLR(0) = 1 << 8; // set timer interupt flag to 0
   T2CONSET = 1 << 15; // start the timer
   IECSET(0) = (1 << 8); // timer 2 interrupt enable to 1 
@@ -37,4 +56,26 @@ void labinit( void ){
   enable_interrupt();
   clearDisplay();
   display_image(0, display);
+}
+
+
+void display2dToArray() {
+  int page, c, r;
+  uint8_t powerOfTwo = 1;
+  uint8_t oledN = 0;
+
+  for(page = 0; page < 4; page++) {
+    for(c = 0; c < 128; c++) {
+      powerOfTwo = 1;
+      oledN = 0;
+
+      for(r = 0; r < 8; r++) {
+        if(display2d[8 * page + r][c]) {
+          oledN |= powerOfTwo;
+        }
+        powerOfTwo <<= 1;
+      }
+      display[c + page * 128] = oledN;
+    }
+  }
 }
