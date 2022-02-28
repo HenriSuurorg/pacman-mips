@@ -147,3 +147,116 @@ void clearDisplay(){
     for (i = 0; i < 512; i++)
         display[i] = 0;
 }
+
+void displayWalls(){
+	setDisplay2d(1, 0, 49, 0);
+	setDisplay2d(76, 0, 49, 0);
+
+	setDisplay2d(1, 0, 0, 30);
+	setDisplay2d(50, 0, 0, 5);
+	setDisplay2d(76, 0, 0, 5);
+	setDisplay2d(126, 0, 0, 30);
+
+	setDisplay2d(1, 31, 125, 31);
+
+	setDisplay2d(6, 6, 13, 0);
+	setDisplay2d(25, 6, 3, 0);
+	setDisplay2d(34, 6, 10, 0);
+	setDisplay2d(83, 6, 19, 0);
+	setDisplay2d(108, 6, 13, 0);
+
+    setDisplay2d(6, 6, 0, 3);
+	setDisplay2d(19, 6, 0, 3);
+	setDisplay2d(25, 6, 0, 3);
+	setDisplay2d(28, 6, 0, 3);
+	setDisplay2d(108, 6, 0, 3);
+	setDisplay2d(121, 6, 0, 3);
+
+	setDisplay2d(6, 9, 13, 0);
+	setDisplay2d(25, 9, 3, 0);
+	setDisplay2d(108, 9, 13, 0);
+
+	setDisplay2d(34, 6, 0, 10);
+	setDisplay2d(44, 6, 0, 10);
+
+	setDisplay2d(83, 6, 0, 3);
+	setDisplay2d(102, 6, 0, 8);
+
+	setDisplay2d(34, 16, 10, 0);
+
+	setDisplay2d(36, 8, 6, 0);
+	setDisplay2d(36, 8, 0, 6);
+	setDisplay2d(42, 8, 0, 6);
+	setDisplay2d(36, 13, 6, 0);
+
+	setDisplay2d(36, 14, 0, 0);
+	setDisplay2d(39, 8, 0, 6);
+	setDisplay2d(42, 14, 0, 0);
+
+	setDisplay2d(36, 8, 0, 6);
+
+	setDisplay2d(51, 12, 5, 0);
+	setDisplay2d(51, 12, 0, 4);
+	setDisplay2d(56, 12, 0, 4);
+	setDisplay2d(51, 16, 5, 0);
+
+	setDisplay2d(53, 14, 1, 0);
+
+	setDisplay2d(83, 9, 16, 0);
+	setDisplay2d(99, 9, 0, 8);
+	setDisplay2d(102, 14, 14, 0);
+	setDisplay2d(116, 14, 0, 3);
+
+	setDisplay2d(99, 17, 16, 0);
+	
+	setDisplay2d(63, 12, 15, 0);
+	setDisplay2d(63, 12, 0, 10);
+	setDisplay2d(67, 16, 0, 10);
+	setDisplay2d(52, 22, 11, 0);
+
+	setDisplay2d(11, 14, 17, 0);
+	setDisplay2d(11, 14, 0, 3);
+	setDisplay2d(11, 14, 0, 3);
+	setDisplay2d(28, 14, 0, 8);
+	setDisplay2d(25, 17, 0, 8);
+	setDisplay2d(11, 17, 14, 0);
+	setDisplay2d(25, 25, 19, 0);
+	setDisplay2d(44, 22, 0, 3);
+
+	setDisplay2d(28, 22, 14, 0);
+
+	setDisplay2d(6, 23, 13, 0);
+	setDisplay2d(6, 23, 0, 2);
+	setDisplay2d(19, 23, 0, 2);
+	setDisplay2d(6, 25, 13, 0);
+
+	setDisplay2d(51, 22, 0, 3);
+	setDisplay2d(51, 25, 15, 0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+    // setDisplay2d(0, 6, 0, 6);
+	// setDisplay2d(0, 1, 0, 5);
+	// setDisplay2d(0, 1, 0, 5);
+	// setDisplay2d(0, 1, )
+
+}
