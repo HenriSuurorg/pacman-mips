@@ -38,27 +38,19 @@ void checkButtons(){
 
     if (btns){
     if(btns & 0x8){
-      clearDisplay();
-      pacman.x = pacman.x - 1;
-      displayPacman(pacman.x, pacman.y);
+      pacman.dir = 'w';
     }
 
     if(btns & 0x4){
-      clearDisplay();
-      pacman.y = pacman.y - 1;
-      displayPacman(pacman.x, pacman.y);
+      pacman.dir = 'n';
     }
     
     if(btns & 0x2){
-      clearDisplay();
-      pacman.y = pacman.y + 1;
-      displayPacman(pacman.x, pacman.y);
+      pacman.dir = 's';
     }
 
     if(btns & 0x1){
-      clearDisplay();
-      pacman.x = pacman.x + 1;
-      displayPacman(pacman.x, pacman.y);
+      pacman.dir = 'e';
     }
   }
 }
@@ -67,16 +59,24 @@ void checkButtons(){
 
 void updatePacman(){
   if(pacman.dir == 'w'){
+    clearDisplay();
     pacman.x = pacman.x - 1;
+    displayPacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 's'){
+    clearDisplay();
     pacman.y = pacman.y - 1;
+    displayPacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 'n'){
+    clearDisplay();
     pacman.y = pacman.y + 1;
+    displayPacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 'e'){
+    clearDisplay();
     pacman.x = pacman.x + 1;
+    displayPacman(pacman.x, pacman.y);
   }
 }
 
@@ -86,5 +86,5 @@ void user_isr( void )
 {
   IFSCLR(0) = (1 << 8);
   checkButtons();
-  //updatePacman();
+  updatePacman();
 }
