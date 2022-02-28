@@ -5,38 +5,24 @@
 void displayGhost(x, y){
   int i;
   for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
-  int r, c, page;
-  uint8_t powerOfTwo = 1;
-  uint8_t oledN = 0;
-
-  display2d[y + 1][x];
-  display2d[y + 1][x + 2];
-  display2d[y + 1][x + 4];
-
+  display2d[y + 1][x] = 1;
+  display2d[y + 1][x + 2] = 1;
+  display2d[y + 1][x + 4] = 1;
   for (i = 0; i < 5; i++) display2d[y + 2][x + i] = 1;
-
-  display2d[y + 3][x];
-  display2d[y + 3][x + 2];
-  display2d[y + 3][x + 4];
-
-  for (i = 0; i < 5; i++) display2d[y + 4][x + i] = 1;
+  for (i = 0; i < 5; i++) display2d[y + 3][x + i] = 1;
+  display2d[y + 4][x] = 1;
+  display2d[y + 4][x + 2] = 1;
+  display2d[y + 4][x + 4] = 1;
 }
 
 void displayPacman(x, y){
   int i;
-
-  for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
-  int r, c, page;
-  uint8_t powerOfTwo = 1;
-  uint8_t oledN = 0;
-
   for (i = 1; i < 5; i++) display2d[y][x + i] = 1;
   for (i = 0; i < 3; i++) display2d[y + 1][x + i] = 1;
   for (i = 0; i < 2; i++) display2d[y + 2][x + i] = 1;
   for (i = 0; i < 3; i++) display2d[y + 3][x + i] = 1;
   for (i = 1; i < 5; i++) display2d[y + 4][x + i] = 1;
 
-  for (i = 0; i < 5; i++) display2d[y + 4][x + i] = 1;
 }
 
 void labinit( void ){

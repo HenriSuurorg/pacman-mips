@@ -2,6 +2,8 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+int movementClock = 0;
+
 void displayGhost(x, y);
 void displayPacman(x, y);
 
@@ -90,12 +92,19 @@ void updatePacman(){
 void user_isr( void )
 {
   IFSCLR(0) = (1 << 8);
+
   clearDisplay();
   checkButtons();
-  updatePacman();
-  updateGhost(&ghost1);
-  updateGhost(&ghost2);
-  display2dToArray();
-  count++;
-  display_image(0, display);
+
+  if(movementClock == 2){
+    updatePacman();
+    updateGhost(&ghost1);
+    updateGhost(&ghost2);
+    display2dToArray();
+    movementClock = 0;
+    display_image(0, display);
+    count++;
+  }
+
+  movementClock++;
 }
