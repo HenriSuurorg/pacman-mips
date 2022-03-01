@@ -24,8 +24,8 @@ uint8_t display[512];
 
 void checkButtons();
 
-void displayGhost(int, int);
-void displayPacman(int, int);
+void moveGhost(int, int);
+void movePacman(int, int);
 void updatePacman();
 
 typedef struct entity entity;
@@ -41,3 +41,4 @@ struct entity{
 
 const uint8_t walls2d[32][128];
 const uint8_t walls[512];
+void addWalls(void);

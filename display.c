@@ -95,7 +95,6 @@ void setDisplay2d(int x, int y, int width, int height)  {
             display[c + page * 128] = oledN;
         }
     }
-
 }
 
 void display_image(int x, const uint8_t *data) {

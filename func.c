@@ -4,8 +4,8 @@
 
 int movementClock = 0;
 
-void displayGhost(x, y);
-void displayPacman(x, y);
+void moveGhost(x, y);
+void movePacman(x, y);
 
 void quicksleep(int cyc) {
 	int i;
@@ -51,19 +51,19 @@ void updateGhost(entity *ghost){
   }
   if(ghost->dir == 'e'){
     ghost->x = ghost->x + 1;
-    displayGhost(ghost->x, ghost->y);
+    moveGhost(ghost->x, ghost->y);
   }
   else if(ghost->dir == 'w'){
     ghost->x = ghost->x - 1;
-    displayGhost(ghost->x, ghost->y);
+    moveGhost(ghost->x, ghost->y);
   }
   else if(ghost->dir == 's'){
     ghost->y = ghost->y + 1;
-    displayGhost(ghost->x, ghost->y);
+    moveGhost(ghost->x, ghost->y);
   }
   else {
     ghost->y = ghost->y - 1;
-    displayGhost(ghost->x, ghost->y);
+    moveGhost(ghost->x, ghost->y);
   }
 }
 
@@ -71,19 +71,19 @@ void updateGhost(entity *ghost){
 void updatePacman(){
   if(pacman.dir == 'w'){
     pacman.x = pacman.x - 1;
-    displayPacman(pacman.x, pacman.y);
+    movePacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 's'){
     pacman.y = pacman.y - 1;
-    displayPacman(pacman.x, pacman.y);
+    movePacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 'n'){
     pacman.y = pacman.y + 1;
-    displayPacman(pacman.x, pacman.y);
+    movePacman(pacman.x, pacman.y);
   }
   if(pacman.dir == 'e'){
     pacman.x = pacman.x + 1;
-    displayPacman(pacman.x, pacman.y);
+    movePacman(pacman.x, pacman.y);
   }
 }
 
@@ -96,14 +96,14 @@ void user_isr( void )
   clearDisplay();
   checkButtons();
 
-   if(movementClock == 2){
+   if(movementClock == 4){
     movementClock = 0;
-
     updatePacman();
     updateGhost(&ghost1);
     updateGhost(&ghost2);
     display2dToArray();
-
+    addWalls();
+    display_image(0, display);
     count++;
   } 
 

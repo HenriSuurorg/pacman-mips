@@ -2,7 +2,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"
 
-void displayGhost(x, y){
+void moveGhost(x, y){
   int i;
   for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
   display2d[y + 1][x] = 1;
@@ -15,7 +15,7 @@ void displayGhost(x, y){
   display2d[y + 4][x + 4] = 1;
 }
 
-void displayPacman(x, y){
+void movePacman(x, y){
   int i;
   for (i = 1; i < 5; i++) display2d[y][x + i] = 1;
   for (i = 0; i < 3; i++) display2d[y + 1][x + i] = 1;
@@ -63,5 +63,13 @@ void display2dToArray() {
       }
       display[c + page * 128] = oledN;
     }
+  }
+}
+
+//add walls to display
+void addWalls(){
+int i;
+  for (i = 0; i < 512; i++) {
+    display[i] = display[i] | walls[i];
   }
 }
