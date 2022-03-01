@@ -4,15 +4,19 @@
 
 void moveGhost(x, y){
   int i;
+  // row 1
   for (i = 1; i < 4; i++) display2d[y][x + i] = 1;
-  display2d[y + 1][x] = 1;
-  display2d[y + 1][x + 2] = 1;
-  display2d[y + 1][x + 4] = 1;
-  for (i = 0; i < 5; i++) display2d[y + 2][x + i] = 1;
-  for (i = 0; i < 5; i++) display2d[y + 3][x + i] = 1;
-  display2d[y + 4][x] = 1;
-  display2d[y + 4][x + 2] = 1;
-  display2d[y + 4][x + 4] = 1;
+  // row 2 and 5
+  for (i = 0; i < 5; i += 2) {
+    display2d[y + 1][x + i] = 1;
+    display2d[y + 4][x + i] = 1;
+    }
+
+  // row 3 and 4
+  for (i = 0; i < 5; i++){
+    display2d[y + 2][x + i] = 1;
+    display2d[y + 3][x + i] = 1;
+    }
 }
 
 // display 5x5 pacman
