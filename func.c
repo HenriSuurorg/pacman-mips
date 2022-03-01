@@ -23,16 +23,16 @@ int checkCollisionWithWall(){
 
   for(i = 0; i < 4; i ++){
     if(pacman.dir == 'w'){
-      collisionBool = collisionBool | walls2d[pacman.x - 1][pacman.y + i];
+      collisionBool = collisionBool | walls2d[pacman.y + i][pacman.x - 1];
     }
     else if(pacman.dir == 's'){
-      collisionBool = collisionBool | walls2d[pacman.x + i][pacman.y + 5];
+      collisionBool = collisionBool | walls2d[pacman.y + 5][pacman.x + i];
     }
     else if(pacman.dir == 'n'){
-      collisionBool = collisionBool | walls2d[pacman.x + i][pacman.y - 1];
+      collisionBool = collisionBool | walls2d[pacman.y - 1][pacman.x + i];
     }
     else {
-      collisionBool = collisionBool | walls2d[pacman.x + 5][pacman.y + i];
+      collisionBool = collisionBool | walls2d[pacman.y + i][pacman.x + 5];
     }
   }
   return collisionBool;
@@ -113,11 +113,11 @@ void user_isr( void )
   clearDisplay();
   checkButtons();
 
-  if(movementClock == 5){
+  if(movementClock == 2){
     movementClock = 0;
 
     uint8_t collision = checkCollisionWithWall();
-    if (!collision) updatePacman();
+    if (collision == 0) updatePacman();
     movePacman(pacman.x, pacman.y);
 //    updateGhost(&ghost1);
 //   updateGhost(&ghost2);
