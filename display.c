@@ -209,10 +209,10 @@ void displayWalls(){
 
 	setDisplay2d(99, 17, 16, 0);
 	
-	setDisplay2d(63, 12, 15, 0);
-	setDisplay2d(63, 12, 0, 10);
-	setDisplay2d(67, 16, 0, 10);
-	setDisplay2d(52, 22, 11, 0);
+	setDisplay2d(62, 12, 14, 0);
+	setDisplay2d(62, 12, 0, 9);
+	setDisplay2d(66, 15, 0, 9);
+	setDisplay2d(51, 22, 11, 0);
 
 	setDisplay2d(11, 14, 17, 0);
 	setDisplay2d(11, 14, 0, 3);
@@ -223,7 +223,7 @@ void displayWalls(){
 	setDisplay2d(25, 25, 19, 0);
 	setDisplay2d(44, 22, 0, 3);
 
-	setDisplay2d(28, 22, 14, 0);
+	setDisplay2d(28, 22, 16, 0);
 
 	setDisplay2d(6, 23, 13, 0);
 	setDisplay2d(6, 23, 0, 2);
@@ -232,27 +232,38 @@ void displayWalls(){
 
 	setDisplay2d(51, 22, 0, 3);
 	setDisplay2d(51, 25, 15, 0);
+    setDisplay2d(66, 15, 10, 0);
+	setDisplay2d(77, 12, 0, 3);
 
+    setDisplay2d(72, 21, 4, 0);
+    setDisplay2d(72, 21, 0, 4);
+	setDisplay2d(77, 21, 0, 4);
+	setDisplay2d(72, 25, 4, 0);
+	setDisplay2d(74, 23, 1, 0);
 
+	setDisplay2d(83, 15, 9, 0);
+	setDisplay2d(83, 15, 0, 9);
+	setDisplay2d(93, 15, 0, 9);
+	setDisplay2d(83, 25, 10, 0);
 
+    setDisplay2d(85, 17, 0, 5);
+	setDisplay2d(88, 17, 0, 5); 
+	setDisplay2d(91, 17, 0, 6);
 
+	setDisplay2d(85, 18, 5, 0);
+	setDisplay2d(85, 23, 5, 0);
 
+	setDisplay2d(99, 23, 2, 0);
+	setDisplay2d(99, 25, 2, 0);
+	setDisplay2d(99, 23, 0, 2);
+	setDisplay2d(102, 23, 0, 2);
 
+    setDisplay2d(109, 23, 12, 0);
+	setDisplay2d(109, 25, 12, 0);
+	setDisplay2d(109, 23, 0, 2);
+	setDisplay2d(121, 23, 0, 2);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
+	setDisplay2d(50, 6, 26, 0);
 
     // setDisplay2d(0, 6, 0, 6);
 	// setDisplay2d(0, 1, 0, 5);
