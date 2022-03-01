@@ -96,15 +96,16 @@ void user_isr( void )
   clearDisplay();
   checkButtons();
 
-  if(movementClock == 2){
+   if(movementClock == 2){
+    movementClock = 0;
+
     updatePacman();
     updateGhost(&ghost1);
     updateGhost(&ghost2);
     display2dToArray();
-    movementClock = 0;
-    display_image(0, display);
+
     count++;
-  }
+  } 
 
   movementClock++;
 }

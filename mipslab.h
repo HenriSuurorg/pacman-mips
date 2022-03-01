@@ -38,3 +38,6 @@ struct entity{
    int width;
    char dir; // direction: either 'n', 'e', 's' or 'w'
 };
+
+const uint8_t walls2d[32][128];
+const uint8_t walls[512];
