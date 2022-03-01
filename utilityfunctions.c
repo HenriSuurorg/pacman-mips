@@ -15,14 +15,18 @@ void moveGhost(x, y){
   display2d[y + 4][x + 4] = 1;
 }
 
+// display 5x5 pacman
 void movePacman(x, y){
   int i;
-  for (i = 1; i < 5; i++) display2d[y][x + i] = 1;
-  for (i = 0; i < 3; i++) display2d[y + 1][x + i] = 1;
-  for (i = 0; i < 2; i++) display2d[y + 2][x + i] = 1;
-  for (i = 0; i < 3; i++) display2d[y + 3][x + i] = 1;
-  for (i = 1; i < 5; i++) display2d[y + 4][x + i] = 1;
-
+  for (i = 1; i < 5; i++) {
+    display2d[y][x + i] = 1; // moves row 1
+    display2d[y + 4][x + i] = 1; // moves row 5
+    }
+  for (i = 0; i < 4; i++){ 
+    display2d[y + 1][x + i] = 1; // moves row 2
+    display2d[y + 3][x + i] = 1; // moves row 4
+  }
+  for (i = 0; i < 3; i++) display2d[y + 2][x + i] = 1; // moves row 3
 }
 
 void labinit( void ){
@@ -33,7 +37,7 @@ void labinit( void ){
   T2CONSET = 0 << 15; // turn timer on
   TMR2 = 0; // set timer to 0
   T2CONSET = 0x70; // set the prescaling to 1:256 
-  PR2 = 31250/8; // set period to 25ms;
+  PR2 = 31250/4; // set period to 25ms;
   IFSCLR(0) = 1 << 8; // set timer interupt flag to 0
   T2CONSET = 1 << 15; // start the timer
   IECSET(0) = (1 << 8); // timer 2 interrupt enable to 1 

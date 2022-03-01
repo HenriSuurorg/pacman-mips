@@ -71,20 +71,17 @@ void updateGhost(entity *ghost){
 void updatePacman(){
   if(pacman.dir == 'w'){
     pacman.x = pacman.x - 1;
-    movePacman(pacman.x, pacman.y);
   }
-  if(pacman.dir == 's'){
+  else if(pacman.dir == 's'){
     pacman.y = pacman.y - 1;
-    movePacman(pacman.x, pacman.y);
   }
-  if(pacman.dir == 'n'){
+  else if(pacman.dir == 'n'){
     pacman.y = pacman.y + 1;
-    movePacman(pacman.x, pacman.y);
   }
-  if(pacman.dir == 'e'){
+  else if(pacman.dir == 'e'){
     pacman.x = pacman.x + 1;
-    movePacman(pacman.x, pacman.y);
   }
+    movePacman(pacman.x, pacman.y);
 }
 
 
@@ -96,7 +93,7 @@ void user_isr( void )
   clearDisplay();
   checkButtons();
 
-   if(movementClock == 4){
+   if(movementClock == 2){
     movementClock = 0;
     updatePacman();
     updateGhost(&ghost1);
