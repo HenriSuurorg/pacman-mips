@@ -13,9 +13,30 @@ void quicksleep(int cyc) {
 }
 
 
-entity pacman = {.x = 0, .y = 0, .height = 5, .width = 5, .dir = 'e'};
+entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
 entity ghost1 = {.x = 5, .y = 9, .height = 5, .width = 5, .dir = 'e'};
 entity ghost2 = {.x = 32, .y = 16, .height = 5, .width = 5, .dir = 'w'};
+
+int checkCollisionWithWall(){
+  int i;
+  uint8_t collisionBool = 0;
+
+  for(i = 0; i < 4; i ++){
+    if(pacman.dir == 'w'){
+      collisionBool = collisionBool | walls2d[pacman.x - 1][pacman.y + i];
+    }
+    else if(pacman.dir == 's'){
+      collisionBool = collisionBool | walls2d[pacman.x + i][pacman.y + 5];
+    }
+    else if(pacman.dir == 'n'){
+      collisionBool = collisionBool | walls2d[pacman.x + i][pacman.y - 1];
+    }
+    else {
+      collisionBool = collisionBool | walls2d[pacman.x + 5][pacman.y + i];
+    }
+  }
+  return collisionBool;
+}
 
 void checkButtons(){
   int btns; 
@@ -28,11 +49,11 @@ void checkButtons(){
     }
 
     if(btns & 0x4){
-      pacman.dir = 's';
+      pacman.dir = 'n';
     }
     
     if(btns & 0x2){
-      pacman.dir = 'n';
+      pacman.dir = 's';
     }
 
     if(btns & 0x1){
@@ -73,15 +94,14 @@ void updatePacman(){
     pacman.x = pacman.x - 1;
   }
   else if(pacman.dir == 's'){
-    pacman.y = pacman.y - 1;
-  }
-  else if(pacman.dir == 'n'){
     pacman.y = pacman.y + 1;
   }
-  else if(pacman.dir == 'e'){
+  else if(pacman.dir == 'n'){
+    pacman.y = pacman.y - 1;
+  }
+  if(pacman.dir == 'e'){
     pacman.x = pacman.x + 1;
   }
-    movePacman(pacman.x, pacman.y);
 }
 
 
@@ -93,11 +113,14 @@ void user_isr( void )
   clearDisplay();
   checkButtons();
 
-   if(movementClock == 2){
+  if(movementClock == 5){
     movementClock = 0;
-    updatePacman();
-    updateGhost(&ghost1);
-    updateGhost(&ghost2);
+
+    uint8_t collision = checkCollisionWithWall();
+    if (!collision) updatePacman();
+    movePacman(pacman.x, pacman.y);
+//    updateGhost(&ghost1);
+//   updateGhost(&ghost2);
     display2dToArray();
     addWalls();
     display_image(0, display);
