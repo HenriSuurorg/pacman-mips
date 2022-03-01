@@ -41,4 +41,9 @@ struct entity{
 
 const uint8_t walls2d[32][128];
 const uint8_t walls[512];
-void addWalls(void);
+const uint8_t orbs2d[32][128];
+const uint8_t orbs[512];
+void addWallsAndOrbs(void);
+
+int checkCollisionWithWall(char, entity *);
+void updateGhost(entity *);

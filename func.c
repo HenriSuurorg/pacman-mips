@@ -4,8 +4,8 @@
 
 int movementClock = 0;
 
-void moveGhost(x, y);
-void movePacman(x, y);
+void moveGhost(int x, int y);
+void movePacman(int x, int y);
 
 void quicksleep(int cyc) {
 	int i;
@@ -14,77 +14,31 @@ void quicksleep(int cyc) {
 
 
 entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
-entity ghost1 = {.x = 5, .y = 9, .height = 5, .width = 5, .dir = 'e'};
-entity ghost2 = {.x = 32, .y = 16, .height = 5, .width = 5, .dir = 'w'};
+entity ghost1 = {.x = 1, .y = 31, .height = 5, .width = 5, .dir = 'e'};
+entity ghost2 = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'w'};
 
-int checkCollisionWithWall(){
-  int i;
-  uint8_t collisionBool = 0;
-
-  for(i = 0; i < 4; i ++){
-    if(pacman.dir == 'w'){
-      collisionBool = collisionBool | walls2d[pacman.y + i][pacman.x - 1];
-    }
-    else if(pacman.dir == 's'){
-      collisionBool = collisionBool | walls2d[pacman.y + 5][pacman.x + i];
-    }
-    else if(pacman.dir == 'n'){
-      collisionBool = collisionBool | walls2d[pacman.y - 1][pacman.x + i];
-    }
-    else {
-      collisionBool = collisionBool | walls2d[pacman.y + i][pacman.x + 5];
-    }
-  }
-  return collisionBool;
-}
 
 void checkButtons(){
   int btns; 
   btns = (PORTF >> 1) & 0x1; // check button 1
   btns = btns | ((PORTD >> 4) & 0xE); // check button 2-4
 
-    if (btns){
-    if(btns & 0x8){
+  if (btns){
+    if((btns & 0x8) && checkCollisionWithWall('w', &pacman) == 0){
       pacman.dir = 'w';
     }
 
-    if(btns & 0x4){
+    if((btns & 0x4) && checkCollisionWithWall('n', &pacman) == 0){
       pacman.dir = 'n';
     }
     
-    if(btns & 0x2){
+    if((btns & 0x2) && checkCollisionWithWall('s', &pacman) == 0){
       pacman.dir = 's';
     }
 
-    if(btns & 0x1){
+    if((btns & 0x1) && checkCollisionWithWall('e', &pacman) == 0){
       pacman.dir = 'e';
     }
-  }
-}
-
-int count = 0;
-void updateGhost(entity *ghost){
-  if (count % 5 == 0){
-    if(ghost->dir == 'e') ghost->dir = 's';
-    else if(ghost->dir == 's') ghost->dir = 'w';
-    else if(ghost->dir == 'w') ghost->dir = 'n';
-    else  ghost->dir = 'e';
-  }
-  if(ghost->dir == 'e'){
-    ghost->x = ghost->x + 1;
-    moveGhost(ghost->x, ghost->y);
-  }
-  else if(ghost->dir == 'w'){
-    ghost->x = ghost->x - 1;
-    moveGhost(ghost->x, ghost->y);
-  }
-  else if(ghost->dir == 's'){
-    ghost->y = ghost->y + 1;
-    moveGhost(ghost->x, ghost->y);
-  }
-  else {
-    ghost->y = ghost->y - 1;
-    moveGhost(ghost->x, ghost->y);
   }
 }
 
@@ -115,16 +69,15 @@ void user_isr( void )
 
   if(movementClock == 2){
     movementClock = 0;
-
-    uint8_t collision = checkCollisionWithWall();
-    if (collision == 0) updatePacman();
+    if(checkCollisionWithWall(pacman.dir, &pacman) == 0) updatePacman();
     movePacman(pacman.x, pacman.y);
-//    updateGhost(&ghost1);
-//   updateGhost(&ghost2);
+
+    updateGhost(&ghost1);
+    updateGhost(&ghost2);
+
     display2dToArray();
-    addWalls();
+    addWallsAndOrbs();
     display_image(0, display);
-    count++;
   } 
 
   movementClock++;

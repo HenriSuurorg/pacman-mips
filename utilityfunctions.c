@@ -74,10 +74,32 @@ void display2dToArray() {
   }
 }
 
-//add walls to display
-void addWalls(){
+// add walls to display
+void addWallsAndOrbs(){
 int i;
   for (i = 0; i < 512; i++) {
-    display[i] = display[i] | walls[i];
+    display[i] = display[i] | walls[i] | orbs[i];
   }
+}
+
+// check if entity will collide with wall
+int checkCollisionWithWall(char dir, entity *ent){
+  int i;
+  uint8_t collisionBool = 0;
+
+  for(i = 0; i < 4; i ++){
+    if(dir == 'w'){
+      collisionBool = collisionBool | walls2d[ent->y + i][ent->x - 1];
+    }
+    else if(dir == 's'){
+      collisionBool = collisionBool | walls2d[ent->y + 5][ent->x + i];
+    }
+    else if(dir == 'n'){
+      collisionBool = collisionBool | walls2d[ent->y - 1][ent->x + i];
+    }
+    else {
+      collisionBool = collisionBool | walls2d[ent->y + i][ent->x + 5];
+    }
+  }
+  return collisionBool;
 }
