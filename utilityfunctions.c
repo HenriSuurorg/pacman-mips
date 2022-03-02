@@ -105,3 +105,42 @@ int checkCollisionWithWall(char dir, entity *ent){
   }
   return collisionBool;
 }
+
+// check if pacman is colliding with wall
+void checkCollisionWithOrb(entity *ent){
+  int i, j;
+  uint8_t collisionBool = 0;
+
+  for(i = 0; i < 5; i++){
+    for(j = 0; j < 5; j++){
+      if (orbs2d[ent->y + i][ent->x + j] == 1){
+        collisionBool = 1;
+        orbs2d[ent->y + i][ent->x + j] = 0;
+      }
+    }
+  }
+  if(collisionBool == 1) orbs2dToArray();
+}
+
+
+// remake orbs array
+void orbs2dToArray() {
+  int page, c, r;
+  uint8_t powerOfTwo = 1;
+  uint8_t oledN = 0;
+
+  for(page = 0; page < 4; page++) {
+    for(c = 0; c < 128; c++) {
+      powerOfTwo = 1;
+      oledN = 0;
+
+      for(r = 0; r < 8; r++) {
+        if(orbs2d[8 * page + r][c]) {
+          oledN |= powerOfTwo;
+        }
+        powerOfTwo <<= 1;
+      }
+      orbs[c + page * 128] = oledN;
+    }
+  }
+}

@@ -16,10 +16,9 @@ void quicksleep(int cyc) {
 
 entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
 
-entity ghost1 = {.x = 5, .y = 1, .height = 5, .width = 5, .dir = 'e'};
-entity ghost2 = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 's'};
-entity ghost3 = {.x = 5, .y = 1, .height = 5, .width = 5, .dir = 'w'};
-entity ghost4 = {.x = 80, .y = 1, .height = 5, .width = 5, .dir = 'e'};
+entity ghost1 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 'w'};
+entity ghost2 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 'e'};
+entity ghost3 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 's'};
 
 
 void checkButtons(){
@@ -45,8 +44,6 @@ void checkButtons(){
     }
   }
 }
-
-
 void updatePacman(){
   if(pacman.dir == 'w'){
     pacman.x = pacman.x - 1;
@@ -72,13 +69,12 @@ void user_isr( void )
   if(movementClock == 2){
     movementClock = 0;
     if(checkCollisionWithWall(pacman.dir, &pacman) == 0) updatePacman();
+    checkCollisionWithOrb(&pacman);
     movePacman(pacman.x, pacman.y);
 
-    srand(seed());
     updateGhost(&ghost1);
     updateGhost(&ghost2);
     updateGhost(&ghost3);
-    updateGhost(&ghost4);
 
     display2dToArray();
     addWallsAndOrbs();

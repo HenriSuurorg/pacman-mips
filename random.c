@@ -4,7 +4,6 @@ void init_pin() {
     AD1PCFG = 0xFBFF;
     AD1CON1 = 4 << 8 | 7 << 5;
     AD1CHS = 1 << 17;
-    TRISBSET = 1 << 11;
     AD1CON2 = 0;
     AD1CON3SET = 1 << 15;
 

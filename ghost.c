@@ -4,6 +4,7 @@
 
 
 void chooseRandomDir(char dir, entity *ghost){
+    srand(seed());
     char allDirs[4] = {'e', 'w', 's', 'n'};
     char availableDirs[3];
 
