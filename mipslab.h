@@ -47,3 +47,6 @@ void addWallsAndOrbs(void);
 
 int checkCollisionWithWall(char, entity *);
 void updateGhost(entity *);
+
+unsigned int seed(void);
+void init_pin(void);

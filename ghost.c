@@ -2,6 +2,7 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 
+
 void chooseRandomDir(char dir, entity *ghost){
     char allDirs[4] = {'e', 'w', 's', 'n'};
     char availableDirs[3];
@@ -12,9 +13,9 @@ void chooseRandomDir(char dir, entity *ghost){
         char cur = allDirs[i];
         if(checkCollisionWithWall(cur, ghost) == 0) {
             availableDirs[j++] = cur;
-            ghost->dir = cur;
         }
     }
+    ghost->dir = availableDirs[rand()%(j)];
 }
 
 void updateGhost(entity *ghost){

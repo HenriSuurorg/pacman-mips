@@ -48,6 +48,8 @@ void labinit( void ){
   IPCSET(2) = 0x1f; // set timer2 interrupt priority and sub-priority control to 1 
 
   enable_interrupt();
+
+  init_pin();
   clearDisplay();
   display_image(0, display);
 }

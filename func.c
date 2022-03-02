@@ -1,6 +1,7 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
+void *stdin, *stdout, *stderr;
 
 int movementClock = 0;
 
@@ -14,8 +15,8 @@ void quicksleep(int cyc) {
 
 
 entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
-entity ghost1 = {.x = 1, .y = 31, .height = 5, .width = 5, .dir = 'e'};
-entity ghost2 = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'w'};
+entity ghost1 = {.x = 5, .y = 1, .height = 5, .width = 5, .dir = 'e'};
+entity ghost2 = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 's'};
 
 
 void checkButtons(){
@@ -62,8 +63,6 @@ void updatePacman(){
 /* Interrupt Service Routine */
 void user_isr( void )
 {
-  IFSCLR(0) = (1 << 8);
-
   clearDisplay();
   checkButtons();
 
@@ -72,13 +71,16 @@ void user_isr( void )
     if(checkCollisionWithWall(pacman.dir, &pacman) == 0) updatePacman();
     movePacman(pacman.x, pacman.y);
 
+    srand(seed());
     updateGhost(&ghost1);
+    srand(seed());
     updateGhost(&ghost2);
 
     display2dToArray();
     addWallsAndOrbs();
     display_image(0, display);
   } 
-
   movementClock++;
+
+  IFSCLR(0) = (1 << 8);
 }

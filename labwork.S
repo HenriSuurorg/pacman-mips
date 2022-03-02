@@ -10,14 +10,17 @@
 .endm
 
 .global enable_interrupt
+.global rng
 
-enable_interrupt: # enables interrupts globally
-    PUSH $ra
-    ei
-    POP $ra
-    j   $ra
-    nop
+.text
 
-stop:
-    j stop
-    nop
+    enable_interrupt: # enables interrupts globally
+        PUSH $ra
+        ei
+        POP $ra
+        j   $ra
+        nop
+
+    stop:
+        j stop
+        nop
