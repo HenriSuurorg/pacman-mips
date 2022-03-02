@@ -6,7 +6,6 @@ void *stdin, *stdout, *stderr;
 int movementClock = 0;
 
 void moveGhost(int x, int y);
-void movePacman(int x, int y);
 
 void quicksleep(int cyc) {
 	int i;
@@ -14,11 +13,17 @@ void quicksleep(int cyc) {
 }
 
 
-entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
+entity pacman = {.x = 1, .y = 1, .dir = 'e'};
 
-entity ghost1 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 'w'};
-entity ghost2 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 'e'};
-entity ghost3 = {.x = 60, .y = 8, .height = 5, .width = 5, .dir = 's'};
+entity ghost1 = {.x = 60, .y = 8, .dir = 'w'};
+entity ghost2 = {.x = 60, .y = 8, .dir = 'e'};
+entity ghost3 = {.x = 60, .y = 8, .dir = 's'};
+
+int nofGhosts = 3;
+entity ghosts[3] = {
+  {.x = 60, .y = 8, .dir = 'w'},
+  {.x = 60, .y = 8, .dir = 'e'},
+  {.x = 60, .y = 8, .dir = 's'}};
 
 
 void checkButtons(){
@@ -70,11 +75,10 @@ void user_isr( void )
     movementClock = 0;
     if(checkCollisionWithWall(pacman.dir, &pacman) == 0) updatePacman();
     checkCollisionWithOrb(&pacman);
-    movePacman(pacman.x, pacman.y);
+    movePacman(pacman.x, pacman.y, pacman.dir);
 
-    updateGhost(&ghost1);
-    updateGhost(&ghost2);
-    updateGhost(&ghost3);
+    int i;
+    for (i = 0; i < nofGhosts; i++) updateGhost(&ghosts[i]);
 
     display2dToArray();
     addWallsAndOrbs();

@@ -25,18 +25,15 @@ uint8_t display[512];
 void checkButtons();
 
 void moveGhost(int, int);
-void movePacman(int, int);
+void movePacman(int, int, char);
 void updatePacman();
 
 typedef struct entity entity;
 struct entity{
    int x;
    int y;
-   int nextX;
-   int nextY;
-   int height;
-   int width;
    char dir; // direction: either 'n', 'e', 's' or 'w'
+   int lives;
 };
 
 const uint8_t walls2d[32][128];
@@ -52,5 +49,6 @@ unsigned int seed(void);
 void init_pin(void);
 
 int gameState;
+int score;
 void orbs2dToArray(void);
 void checkCollisionWithOrb(entity *);

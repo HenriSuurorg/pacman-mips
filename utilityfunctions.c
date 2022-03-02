@@ -20,8 +20,10 @@ void moveGhost(x, y){
 }
 
 // display 5x5 pacman
-void movePacman(x, y){
+void movePacman(int x, int y, char dir){
   int i;
+
+  if(dir == 'e'){
   for (i = 1; i < 5; i++) {
     display2d[y][x + i] = 1; // moves row 1
     display2d[y + 4][x + i] = 1; // moves row 5
@@ -31,6 +33,43 @@ void movePacman(x, y){
     display2d[y + 3][x + i] = 1; // moves row 4
   }
   for (i = 0; i < 3; i++) display2d[y + 2][x + i] = 1; // moves row 3
+  }
+  else if(dir == 'w')
+  {
+  for (i = 0; i < 4; i++) {
+    display2d[y][x + i] = 1; // moves row 1
+    display2d[y + 4][x + i] = 1; // moves row 5
+    }
+  for (i = 1; i < 5; i++){ 
+    display2d[y + 1][x + i] = 1; // moves row 2
+    display2d[y + 3][x + i] = 1; // moves row 4
+  }
+  for (i = 2; i < 5; i++) display2d[y + 2][x + i] = 1; // moves row 3
+  }
+  else if(dir == 'n')
+  {
+  for (i = 0; i < 4; i++) {
+    display2d[y + i][x] = 1; // moves row 1
+    display2d[y + i][x + 4] = 1; // moves row 5
+    }
+  for (i = 1; i < 5; i++){ 
+    display2d[y + i][x + 1] = 1; // moves row 2
+    display2d[y + i][x + 3] = 1; // moves row 4
+  }
+  for (i = 2; i < 5; i++) display2d[y + i][x + 2] = 1; // moves row 3
+  }
+  else if(dir == 's')
+  {
+  for (i = 1; i < 5; i++) {
+    display2d[y + i][x] = 1; // moves row 1
+    display2d[y + i][x + 4] = 1; // moves row 5
+    }
+  for (i = 0; i < 4; i++){ 
+    display2d[y + i][x + 1] = 1; // moves row 2
+    display2d[y + i][x + 3] = 1; // moves row 4
+  }
+  for (i = 0; i < 3; i++) display2d[y + i][x + 2] = 1; // moves row 3
+  }
 }
 
 void labinit( void ){
@@ -48,6 +87,7 @@ void labinit( void ){
   IPCSET(2) = 0x1f; // set timer2 interrupt priority and sub-priority control to 1 
 
   enable_interrupt();
+  score = 0;
 
   init_pin();
   clearDisplay();
@@ -115,11 +155,21 @@ void checkCollisionWithOrb(entity *ent){
     for(j = 0; j < 5; j++){
       if (orbs2d[ent->y + i][ent->x + j] == 1){
         collisionBool = 1;
+        score += 10;
         orbs2d[ent->y + i][ent->x + j] = 0;
       }
     }
   }
   if(collisionBool == 1) orbs2dToArray();
+}
+
+// check if pacman is colliding with a ghost
+void checkCollisionWithGhost(entity *pacman, entity *ghost){
+  int i, j;
+  for(i = 0; i < 5; i++){
+    for(j = 0; j < 5; j++){
+      }
+  }
 }
 
 
