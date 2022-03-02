@@ -15,8 +15,11 @@ void quicksleep(int cyc) {
 
 
 entity pacman = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 'e'};
+
 entity ghost1 = {.x = 5, .y = 1, .height = 5, .width = 5, .dir = 'e'};
 entity ghost2 = {.x = 1, .y = 1, .height = 5, .width = 5, .dir = 's'};
+entity ghost3 = {.x = 5, .y = 1, .height = 5, .width = 5, .dir = 'w'};
+entity ghost4 = {.x = 80, .y = 1, .height = 5, .width = 5, .dir = 'e'};
 
 
 void checkButtons(){
@@ -73,8 +76,9 @@ void user_isr( void )
 
     srand(seed());
     updateGhost(&ghost1);
-    srand(seed());
     updateGhost(&ghost2);
+    updateGhost(&ghost3);
+    updateGhost(&ghost4);
 
     display2dToArray();
     addWallsAndOrbs();
