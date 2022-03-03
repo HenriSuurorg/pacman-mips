@@ -20,17 +20,17 @@ void chooseRandomDir(char dir, entity *ghost){
 }
 
 void updateGhost(entity *ghost){
-    if (checkCollisionWithWall(ghost -> dir, ghost) == 1) chooseRandomDir(ghost -> dir, ghost);
+    if (checkCollisionWithWall(ghost->dir, ghost) == 1) chooseRandomDir(ghost->dir, ghost);
 
-    if(ghost -> dir == 'e'){
+    if(ghost->dir == 'e'){
         ghost->x = ghost->x + 1;
         moveGhost(ghost->x, ghost->y);
     }
-    else if(ghost -> dir == 'w'){
+    else if(ghost->dir == 'w'){
         ghost->x = ghost->x - 1;
         moveGhost(ghost->x, ghost->y);
     }
-    else if(ghost -> dir == 's'){
+    else if(ghost->dir == 's'){
         ghost->y = ghost->y + 1;
         moveGhost(ghost->x, ghost->y);
     }

@@ -52,3 +52,10 @@ int gameState;
 int score;
 void orbs2dToArray(void);
 void checkCollisionWithOrb(entity *);
+void checkCollisionWithGhost(entity *, entity[]);
+void updatePacman(entity *);
+
+int btn1;
+int btn2;
+int btn3;
+int btn4;

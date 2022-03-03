@@ -3,27 +3,21 @@
 #include "mipslab.h"  /* Declatations for these labs */
 void *stdin, *stdout, *stderr;
 
-int movementClock = 0;
-
-void moveGhost(int x, int y);
-
 void quicksleep(int cyc) {
 	int i;
 	for(i = cyc; i > 0; i--);
 }
 
+int btn1, btn2, btn3, btn4;
+int movementClock = 0;
 
-entity pacman = {.x = 1, .y = 1, .dir = 'e'};
-
-entity ghost1 = {.x = 60, .y = 8, .dir = 'w'};
-entity ghost2 = {.x = 60, .y = 8, .dir = 'e'};
-entity ghost3 = {.x = 60, .y = 8, .dir = 's'};
+entity pacman = {.x = 1, .y = 1, .dir = 'e', .lives = 3};
 
 int nofGhosts = 3;
 entity ghosts[3] = {
-  {.x = 60, .y = 8, .dir = 'w'},
-  {.x = 60, .y = 8, .dir = 'e'},
-  {.x = 60, .y = 8, .dir = 's'}};
+  {.x = 60, .y = 8, .dir = 'w', .lives = 1},
+  {.x = 60, .y = 8, .dir = 'e', .lives = 1},
+  {.x = 60, .y = 8, .dir = 's', .lives = 1}};
 
 
 void checkButtons(){
@@ -31,36 +25,16 @@ void checkButtons(){
   btns = (PORTF >> 1) & 0x1; // check button 1
   btns = btns | ((PORTD >> 4) & 0xE); // check button 2-4
 
+  btn1 = 0;
+  btn2 = 0;
+  btn3 = 0;
+  btn4 = 0;
+
   if (btns){
-    if((btns & 0x8) && checkCollisionWithWall('w', &pacman) == 0){
-      pacman.dir = 'w';
-    }
-
-    if((btns & 0x4) && checkCollisionWithWall('n', &pacman) == 0){
-      pacman.dir = 'n';
-    }
-    
-    if((btns & 0x2) && checkCollisionWithWall('s', &pacman) == 0){
-      pacman.dir = 's';
-    }
-
-    if((btns & 0x1) && checkCollisionWithWall('e', &pacman) == 0){
-      pacman.dir = 'e';
-    }
-  }
-}
-void updatePacman(){
-  if(pacman.dir == 'w'){
-    pacman.x = pacman.x - 1;
-  }
-  else if(pacman.dir == 's'){
-    pacman.y = pacman.y + 1;
-  }
-  else if(pacman.dir == 'n'){
-    pacman.y = pacman.y - 1;
-  }
-  if(pacman.dir == 'e'){
-    pacman.x = pacman.x + 1;
+    if(btns & 0x8) btn4 = 1;
+    else if(btns & 0x4) btn3 = 1;
+    else if(btns & 0x2) btn2 = 1;
+    else if(btns & 0x1) btn1 = 1;
   }
 }
 
@@ -72,12 +46,14 @@ void user_isr( void )
   checkButtons();
 
   if(movementClock == 2){
+    int i;
+
     movementClock = 0;
-    if(checkCollisionWithWall(pacman.dir, &pacman) == 0) updatePacman();
+    updatePacman(&pacman);
     checkCollisionWithOrb(&pacman);
+    for (i = 0; i < nofGhosts; i++) checkCollisionWithGhost(&pacman, &ghosts[i]);
     movePacman(pacman.x, pacman.y, pacman.dir);
 
-    int i;
     for (i = 0; i < nofGhosts; i++) updateGhost(&ghosts[i]);
 
     display2dToArray();

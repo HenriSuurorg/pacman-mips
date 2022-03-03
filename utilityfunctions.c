@@ -1,4 +1,5 @@
 #include <stdint.h>   /* Declarations of uint_32 and the like */
+#include <stdlib.h>
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"
 
@@ -163,15 +164,32 @@ void checkCollisionWithOrb(entity *ent){
   if(collisionBool == 1) orbs2dToArray();
 }
 
-// check if pacman is colliding with a ghost
+// check if pacman is colliding with any ghost
 void checkCollisionWithGhost(entity *pacman, entity *ghost){
-  int i, j;
-  for(i = 0; i < 5; i++){
-    for(j = 0; j < 5; j++){
-      }
+  int i, xDifference, yDifference;
+  int collisionBool = 0;
+  xDifference = (ghost->x) - (pacman->x);
+  yDifference = (ghost->y) - (pacman->y);
+
+  if((xDifference <= 5) && (xDifference >= -5 ) && (yDifference <= 5) && (yDifference >= -5)) collisionBool = 1; 
+
+  if(collisionBool == 1){
+    pacman->lives = pacman->lives - 1;
+    if(pacman->lives == 0){
+      // game over
+    }
+    else {
+      // move pacman and ghost to starting positions
+        ghost->x = 60;
+        ghost->y = 8;
+        ghost->dir = 'n';
+
+        pacman->x = 1;
+        pacman->y = 1;
+        pacman->dir = 'e';
+    }
   }
 }
-
 
 // remake orbs array
 void orbs2dToArray() {
@@ -192,5 +210,26 @@ void orbs2dToArray() {
       }
       orbs[c + page * 128] = oledN;
     }
+  }
+}
+
+// player lost - reset game
+void gameOver(entity *pacman, entity *ghost){
+  
+}
+
+void updatePacman(entity *pacman){
+  // check if direction change
+  if((btn4) && checkCollisionWithWall('w', pacman) == 0) pacman->dir = 'w';
+  else if((btn3) && checkCollisionWithWall('n', pacman) == 0) pacman->dir = 'n';
+  else if((btn2) && checkCollisionWithWall('s', pacman) == 0) pacman->dir = 's';
+  else if((btn1) && checkCollisionWithWall('e', pacman) == 0) pacman->dir = 'e';
+
+  // check if collision, then change coordinates
+  if(checkCollisionWithWall(pacman->dir, pacman) == 0){
+    if(pacman->dir == 'w') pacman->x = pacman->x - 1;
+    else if(pacman->dir == 'n')pacman->y = pacman->y - 1;
+    else if(pacman->dir == 's')pacman->y = pacman->y + 1;
+    else if(pacman->dir == 'e')pacman->x = pacman->x + 1;
   }
 }
