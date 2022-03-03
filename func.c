@@ -41,18 +41,19 @@ void checkButtons(){
 
 void game(){
     int i;
+    if (movementClock >= 2){
+      movementClock = 0;
+      updatePacman(&pacman);
+      checkCollisionWithOrb(&pacman);
+      for (i = 0; i < nofGhosts; i++) checkCollisionWithGhost(&pacman, &ghosts[i]);
+      movePacman(pacman.x, pacman.y, pacman.dir);
 
-    movementClock = 0;
-    updatePacman(&pacman);
-    checkCollisionWithOrb(&pacman);
-    for (i = 0; i < nofGhosts; i++) checkCollisionWithGhost(&pacman, &ghosts[i]);
-    movePacman(pacman.x, pacman.y, pacman.dir);
+      for (i = 0; i < nofGhosts; i++) updateGhost(&ghosts[i]);
 
-    for (i = 0; i < nofGhosts; i++) updateGhost(&ghosts[i]);
-
-    display2dToArray();
-    addWallsAndOrbs();
-    display_image(0, display);
+      display2dToArray();
+      addWallsAndOrbs();
+      display_image(0, display);
+    }
 }
 
 
@@ -65,10 +66,11 @@ void user_isr( void )
   if(gameState == 0) menu(); // menu
   else if(gameState == 1) instructions(); // instructions 
   else if(gameState == 2) credits(); // credits
-  else if(gameState == 3 && movementClock == 2) game();
-  else if(gameState == 4){credits();} // game over
-  else if (gameState == 5)gameState3(); // enter highscore
-  else{gameState3();} // view highscore
+  else if(gameState == 3) game();
+  else if(gameState == 4) credits(); // game over
+  else if (gameState == 5)game(); // enter highscore
+  else credits(); // view highscore
+
   movementClock++;
 
   IFSCLR(0) = (1 << 8); 
