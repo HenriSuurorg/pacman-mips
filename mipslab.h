@@ -55,6 +55,10 @@ void checkCollisionWithOrb(entity *);
 void checkCollisionWithGhost(entity *, entity[]);
 void updatePacman(entity *);
 
+void credits();
+void menu();
+void instructions();
+
 int btn1;
 int btn2;
 int btn3;

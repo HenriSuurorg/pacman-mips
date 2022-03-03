@@ -117,21 +117,27 @@ void display_image(int x, const uint8_t *data) {
 }
 
 void display_update(void) {
-	int r, c;
-	for(r = 0; r < 4; r++) {
-		DISPLAY_CHANGE_TO_COMMAND_MODE;
-		spi_send_recv(0x22);
-		spi_send_recv(r);
-		
-		spi_send_recv(0x0);
-		spi_send_recv(0x10);
-		
-		DISPLAY_CHANGE_TO_DATA_MODE;
-		
-		for(c = 0; c < 128; c++) {
-				spi_send_recv(display2d[r][c]);
-		}
-	}
+    int i, j, k;
+    int c;
+    for(i = 0; i < 4; i++) {
+        DISPLAY_CHANGE_TO_COMMAND_MODE;
+        spi_send_recv(0x22);
+        spi_send_recv(i);
+        
+        spi_send_recv(0x0);
+        spi_send_recv(0x10);
+        
+        DISPLAY_CHANGE_TO_DATA_MODE;
+        
+        for(j = 0; j < 16; j++) {
+            c = textbuffer[i][j];
+            if(c & 0x80)
+                continue;
+            
+            for(k = 0; k < 8; k++)
+                spi_send_recv(font[c*8 + k]);
+        }
+    }
 }
 
 //clear both display2d and display

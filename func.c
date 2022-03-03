@@ -8,8 +8,8 @@ void quicksleep(int cyc) {
 	for(i = cyc; i > 0; i--);
 }
 
-int btn1, btn2, btn3, btn4;
 int movementClock = 0;
+int gameState = 0;
 
 entity pacman = {.x = 1, .y = 1, .dir = 'e', .lives = 3};
 
@@ -20,6 +20,7 @@ entity ghosts[3] = {
   {.x = 60, .y = 8, .dir = 's', .lives = 1}};
 
 
+int btn1, btn2, btn3, btn4;
 void checkButtons(){
   int btns; 
   btns = (PORTF >> 1) & 0x1; // check button 1
@@ -38,7 +39,7 @@ void checkButtons(){
   }
 }
 
-void gameState3 (){
+void game(){
     int i;
 
     movementClock = 0;
@@ -54,19 +55,21 @@ void gameState3 (){
     display_image(0, display);
 }
 
+
 /* Interrupt Service Routine */
-int gameState = 3;
 void user_isr( void )
 {
   clearDisplay();
   checkButtons();
-  if(gameState == 0){} // menu
-  else if(gameState == 1){} // instructions 
-  else if(gameState == 2){} // credits
-  else if(gameState == 3 && movementClock == 2) gameState3();
-  else if(gameState == 4){} // game over
-  else {} // highscore
+
+  if(gameState == 0) menu(); // menu
+  else if(gameState == 1) instructions(); // instructions 
+  else if(gameState == 2) credits(); // credits
+  else if(gameState == 3 && movementClock == 2) game();
+  else if(gameState == 4){credits();} // game over
+  else if (gameState == 5)gameState3(); // enter highscore
+  else{gameState3();} // view highscore
   movementClock++;
 
-  IFSCLR(0) = (1 << 8);
+  IFSCLR(0) = (1 << 8); 
 }
