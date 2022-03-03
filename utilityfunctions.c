@@ -176,7 +176,7 @@ void checkCollisionWithGhost(entity *pacman, entity *ghost){
   if(collisionBool == 1){
     pacman->lives = pacman->lives - 1;
     if(pacman->lives == 0){
-      // game over
+      gameState = 4;
     }
     else {
       // move pacman and ghost to starting positions

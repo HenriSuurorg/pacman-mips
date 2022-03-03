@@ -38,14 +38,7 @@ void checkButtons(){
   }
 }
 
-
-/* Interrupt Service Routine */
-void user_isr( void )
-{
-  clearDisplay();
-  checkButtons();
-
-  if(movementClock == 2){
+void gameState3 (){
     int i;
 
     movementClock = 0;
@@ -59,7 +52,20 @@ void user_isr( void )
     display2dToArray();
     addWallsAndOrbs();
     display_image(0, display);
-  } 
+}
+
+/* Interrupt Service Routine */
+int gameState = 3;
+void user_isr( void )
+{
+  clearDisplay();
+  checkButtons();
+  if(gameState == 0){} // menu
+  else if(gameState == 1){} // instructions 
+  else if(gameState == 2){} // credits
+  else if(gameState == 3 && movementClock == 2) gameState3();
+  else if(gameState == 4){} // game over
+  else {} // highscore
   movementClock++;
 
   IFSCLR(0) = (1 << 8);
