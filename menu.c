@@ -5,7 +5,80 @@
 
 void highscore()
 {
-    return;
+    char alphabets[26] = 
+    {'a','b','c','d','e','f','g','h','i','j','k','l',
+    'm','n','o','p','q','r','s','t','u','v','w','x',
+    'y','z'};
+
+    int i=0, a=0;
+    int btnbool=0;
+    char highscore_Name[3] = "aaa";
+    display_string(0, "hahahahha");
+    display_update();
+    while (i < 3){
+        display_string(1, highscore_Name);
+        display_update();
+        if (a >= 0 && a < 26){
+            if(btn1){
+                a++;
+                highscore_Name[i] = alphabets[a];
+                display_string(0, highscore_Name);
+                display_update();
+            }
+            else if(btn2){
+                a--; 
+                highscore_Name[i] = alphabets[a];
+                display_string(0, highscore_Name);
+                display_update();
+            }
+            else if(btn3){
+                a = 0;
+                i++;
+            }
+            else if(btn4 && i > 0){
+                a = 0;
+                i--;
+            }
+        }
+        else if (a < 0){
+            a = 26;
+        }
+        else {
+            a = 0;
+        }
+    }
+/* 
+    while(i < 3 ){
+        if(!btnbool){
+            if(a>0 && a<26){
+                if(btn1){ 
+                    a+=1; display_string(0,highscore_Name);display_update();
+                }
+                else if(btn2){
+                    a-=1; display_string(0,highscore_Name);display_update();
+                }
+                else if(btn3){
+                    highscore_Name[i] = alphabets[a];
+                    btnbool = 1;
+                }
+                else if(btn4){
+                    highscore_Name[i] = " ";
+                }
+            }
+            else if(a<0){
+                a=26;
+            }
+            else{
+                a=0;
+            }
+        }
+        else{
+            i++;
+            a=0;
+            btnbool = 0;
+        }
+    }
+    gameState = 0; */
 }
 
 int instrState = 0;

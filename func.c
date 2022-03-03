@@ -9,7 +9,7 @@ void quicksleep(int cyc) {
 }
 
 int movementClock = 0;
-int gameState = 0;
+int gameState = 5;
 
 entity pacman = {.x = 1, .y = 1, .dir = 'e', .lives = 3};
 
@@ -68,7 +68,7 @@ void user_isr( void )
   else if(gameState == 2) credits(); // credits
   else if(gameState == 3) game();
   else if(gameState == 4) credits(); // game over
-  else if (gameState == 5)game(); // enter highscore
+  else if (gameState == 5) highscore(); // enter highscore
   else credits(); // view highscore
 
   movementClock++;

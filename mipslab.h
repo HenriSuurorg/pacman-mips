@@ -58,6 +58,7 @@ void updatePacman(entity *);
 void credits();
 void menu();
 void instructions();
+void highscore();
 
 int btn1;
 int btn2;

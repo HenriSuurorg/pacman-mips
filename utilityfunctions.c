@@ -215,7 +215,9 @@ void orbs2dToArray() {
 
 // player lost - reset game
 void gameOver(entity *pacman, entity *ghost){
-  
+  // enter highscore 
+  // high score table
+  // menu
 }
 
 void updatePacman(entity *pacman){
