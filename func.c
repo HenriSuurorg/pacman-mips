@@ -2,6 +2,9 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"  /* Declatations for these labs */
 void *stdin, *stdout, *stderr;
+int savedScores[] = {0, 0, 0, 0};
+char savedScoreStrings [4][16];
+int scoreClock = 0;
 
 void quicksleep(int cyc) {
 	int i;
@@ -9,7 +12,7 @@ void quicksleep(int cyc) {
 }
 
 int movementClock = 0;
-int gameState = 5;
+int gameState = 0;
 
 entity pacman = {.x = 1, .y = 1, .dir = 'e', .lives = 3};
 
@@ -41,7 +44,9 @@ void checkButtons(){
 
 void game(){
     int i;
-    if (movementClock >= 4){
+    if(nofOrbs == 0){gameState=5;}
+    if (movementClock >= 5){
+      scoreClock++;
       movementClock = 0;
       updatePacman(&pacman);
       checkCollisionWithOrb(&pacman);
@@ -56,16 +61,15 @@ void game(){
     }
 }
 
-int savedScores[] = {0, 0, 0, 0};
-char savedScoreStrings [4][16];
 
 void enterHighScore(){
   int i, j;
   int pos = 3;
+ 
   char* highscoreNames;
   highscoreNames = highscoreName();
   char posString[4] = "1234";
-  int curScore = 699;
+  int curScore = calculateScore(pacman.lives,scoreClock);
   char scoreString[4];
   sprintf(scoreString, "%d", curScore);
   char stringToSave[16] = " .              ";
@@ -109,31 +113,52 @@ void viewScore(){
         display_update();
     }
     if(btn1 == 1){
-        gameState = 0;
+        gameState = 4;
         while (btn1 == 1){
             checkButtons();
         }
     }
     else if(btn2 == 1){
-        gameState = 0;
+        gameState = 4;
         while (btn2 == 1){
             checkButtons();
         }
     }
     else if(btn3 == 1){
-        gameState = 0;
+        gameState = 4;
         while (btn3 == 1){
             checkButtons();
         }
     }
     else if(btn4 == 1){
-        gameState = 0;
+        gameState = 4;
         while (btn4 == 1){
             checkButtons();
         }
     }
 }
 
+void gameOver(){
+    int i;
+    PORTE=0x7;
+    pacman.x = 1;
+    pacman.y = 1;
+    pacman.dir = 'e';
+    pacman.lives = 3;
+    for (i = 0; i < nofGhosts; i++) {
+      ghosts[i].x = 60;
+      ghosts[i].y = 8;
+    }
+    ghosts[0].dir = 'w';
+    ghosts[1].dir = 'e';
+    ghosts[2].dir = 's';
+    orbsRemap();
+    orbs2dToArray();
+    score = 0;
+    scoreClock = 0;
+    nofOrbs = 100;
+    gameState = 0;
+}
 
 /* Interrupt Service Routine */
 void user_isr( void )
@@ -145,7 +170,7 @@ void user_isr( void )
   else if(gameState == 1) instructions(); // instructions 
   else if(gameState == 2) credits(); // credits
   else if(gameState == 3) game();
-  else if(gameState == 4) credits(); // game over
+  else if(gameState == 4) gameOver(); // game over
   else if (gameState == 5) enterHighScore(); // enter highscore
   else viewScore(); // view highscore
 

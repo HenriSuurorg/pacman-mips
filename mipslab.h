@@ -73,3 +73,10 @@ int highscores[4];
 char highScoreStringSaved[16];
 
 int livesAtTheEndOfTheGame;
+
+void gameOver();
+void orbsRemap();
+const uint8_t orbs2dConstant [32][128];
+
+int calculateScore(int, int);
+int nofOrbs;

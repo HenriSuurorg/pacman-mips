@@ -3,6 +3,8 @@
 #include <pic32mx.h>  /* Declarations of system-specific addresses etc */
 #include "mipslab.h"
 
+int nofOrbs = 100;
+
 void moveGhost(x, y){
   int i;
   // row 1
@@ -161,7 +163,10 @@ void checkCollisionWithOrb(entity *ent){
       }
     }
   }
-  if(collisionBool == 1) orbs2dToArray();
+  if(collisionBool == 1) {
+    orbs2dToArray();
+    nofOrbs--;
+  }
 }
 
 // check if pacman is colliding with any ghost
@@ -177,8 +182,7 @@ void checkCollisionWithGhost(entity *pacman, entity *ghost){
     pacman->lives = pacman->lives - 1;
     PORTE = PORTE >> 1;
     if(pacman->lives == 0){
-      PORTE=0x7;
-      gameState = 0;
+      gameState = 4;
     }
     else {
       // move pacman and ghost to starting positions
@@ -215,11 +219,39 @@ void orbs2dToArray() {
   }
 }
 
-// player lost - reset game
-void gameOver(entity *pacman, entity *ghost){
-  // enter highscore 
-  // high score table
-  // menu
+void orbsRemap(){
+  int r, c;
+  for (r = 0; r < 32; r++){
+    for (c = 0; c < 128; c++){
+      orbs2d[r][c] = orbs2dConstant[r][c];
+    }
+  } 
+
+  int page;
+  uint8_t powerOfTwo = 1;
+  uint8_t oledN = 0;
+
+  for(page = 0; page < 4; page++) {
+    for(c = 0; c < 128; c++) {
+      powerOfTwo = 1;
+      oledN = 0;
+
+      for(r = 0; r < 8; r++) {
+        if(orbs2dConstant[8 * page + r][c]) {
+          oledN |= powerOfTwo;
+        }
+        powerOfTwo <<= 1;
+      }
+      orbs[c + page * 128] = oledN;
+    }
+  }
+}
+
+int calculateScore(int lives, int scoreClock){
+  int s = lives * 100; // the less lives you lose, the better
+  s += (120 - scoreClock / 500) * 20; // the faster you finish, the better
+
+  return s;
 }
 
 void updatePacman(entity *pacman){
