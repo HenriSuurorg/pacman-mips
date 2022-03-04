@@ -3,7 +3,8 @@
 #include<pic32mx.h>
 #include"mipslab.h"
 
-void highscore()
+char highscore_Name[16] = "aaa             ";
+char* highscoreName()
 {
     char alphabets[26] = 
     {'a','b','c','d','e','f','g','h','i','j','k','l',
@@ -11,76 +12,79 @@ void highscore()
     'y','z'};
 
     int i=0, a=0;
-    int btnbool=0;
-    char highscore_Name[3] = "aaa";
-    display_string(0, "hahahahha");
-    display_update();
+    //int btnbool=0;
+        // int btnFlag1 = 0;
+        // int btnFlag2 = 0;
+        // int btnFlag3 = 0;
+        // int btnFlag4 = 0;
     while (i < 3){
-        display_string(1, highscore_Name);
+        // display_string(0, highscore_Name);
+        // display_update();
+        checkButtons();
+        display_string(0, highscore_Name);
+        display_string(2, "B4 UP | B3 DOWN");
+        display_string(3, "B2 Y  | B1 N   ");
         display_update();
-        if (a >= 0 && a < 26){
-            if(btn1){
-                a++;
-                highscore_Name[i] = alphabets[a];
-                display_string(0, highscore_Name);
-                display_update();
-            }
-            else if(btn2){
-                a--; 
-                highscore_Name[i] = alphabets[a];
-                display_string(0, highscore_Name);
-                display_update();
-            }
-            else if(btn3){
-                a = 0;
-                i++;
-            }
-            else if(btn4 && i > 0){
-                a = 0;
-                i--;
-            }
-        }
-        else if (a < 0){
-            a = 26;
-        }
-        else {
-            a = 0;
-        }
-    }
-/* 
-    while(i < 3 ){
-        if(!btnbool){
-            if(a>0 && a<26){
-                if(btn1){ 
-                    a+=1; display_string(0,highscore_Name);display_update();
-                }
-                else if(btn2){
-                    a-=1; display_string(0,highscore_Name);display_update();
-                }
-                else if(btn3){
-                    highscore_Name[i] = alphabets[a];
-                    btnbool = 1;
-                }
-                else if(btn4){
-                    highscore_Name[i] = " ";
-                }
-            }
-            else if(a<0){
-                a=26;
-            }
-            else{
-                a=0;
-            }
-        }
-        else{
-            i++;
-            a=0;
-            btnbool = 0;
-        }
-    }
-    gameState = 0; */
-}
 
+        if(btn4 == 1){
+            // btn4count++;
+            // a += btn4count;
+            a++;
+            if (a > 25){
+                a = 0;
+            }
+            highscore_Name[i] = alphabets[a%26];
+            while (btn4 == 1){
+            checkButtons();
+        }
+            // display_string(0, highscore_Name);
+            // display_update();
+        }
+        if(btn3 == 1){
+            // btn3count++;
+            // a -= btn3count; 
+            a--;
+            if(a < 0){
+                a = 25;
+            }
+            highscore_Name[i] = alphabets[a%26];
+            while (btn3 == 1){
+                checkButtons();
+            }
+        }
+        if(btn2 == 1){
+            a = 0;
+            i++;
+            while (btn2 == 1){
+                checkButtons();
+            }
+        }
+        if(btn1  == 1 && i > 0){
+            a = 0;
+            i--;
+            while (btn1 == 1){
+            checkButtons();
+            }
+        }
+    }
+    if (i == 3) 
+    //     highscoreStringSaved = highscore_Name; 
+        return highscore_Name;
+}
+void highscore(){
+    // int i;
+    // for(i = 0;i < 3;i++){
+        // highscoreNames[i][16] = highscoreName();
+    //}
+    static int highscoreIndex = 0;
+    
+    highscoresNames[highscoreIndex++] = highscoreName();
+
+    if (highscoreIndex > 3)
+        highscoreIndex = 0;
+
+    gameState = 0;
+}
 int instrState = 0;
 void instructions()
 {
@@ -133,7 +137,31 @@ void credits()
     display_string(3,options[3]);
     display_update();
 
-  if(btn1 | btn2 | btn3 | btn4) gameState = 0;
+//   if(btn1 | btn2 | btn3 | btn4) gameState = 0;
+if(btn1 == 1){
+        gameState = 0;
+        while (btn1 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn2 == 1){
+        gameState = 0;
+        while (btn2 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn3 == 1){
+        gameState = 0;
+        while (btn3 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn4 == 1){
+        gameState = 0;
+        while (btn4 == 1){
+            checkButtons();
+        }
+    }
 }
 
  void menu() // add this code the existing main in form of menu function call
@@ -152,17 +180,29 @@ void credits()
     display_string(2,options[2]);
     display_string(3,options[3]);
     display_update();
-    
+
     if(btn1 == 1){
         gameState = 3;
+        while (btn1 == 1){
+            checkButtons();
+        }
     }
     else if(btn2 == 1){
         gameState = 6;
+        while (btn2 == 1){
+            checkButtons();
+        }
     }
     else if(btn3 == 1){
         gameState = 2;
+        while (btn3 == 1){
+            checkButtons();
+        }
     }
     else if(btn4 == 1){
         gameState = 1;
+        while (btn4 == 1){
+            checkButtons();
+        }
     }
-    }
+}

@@ -41,7 +41,7 @@ void checkButtons(){
 
 void game(){
     int i;
-    if (movementClock >= 2){
+    if (movementClock >= 4){
       movementClock = 0;
       updatePacman(&pacman);
       checkCollisionWithOrb(&pacman);
@@ -53,6 +53,84 @@ void game(){
       display2dToArray();
       addWallsAndOrbs();
       display_image(0, display);
+    }
+}
+
+int savedScores[] = {0, 0, 0, 0};
+char savedScoreStrings [4][16];
+
+void enterHighScore(){
+  int i, j;
+  int pos = 3;
+  char* highscoreNames;
+  highscoreNames = highscoreName();
+  char posString[4] = "1234";
+  int curScore = 699;
+  char scoreString[4];
+  sprintf(scoreString, "%d", curScore);
+  char stringToSave[16] = " .              ";
+
+  // caluculate where player should be placed on the highscore table
+  for(i = 0; i < 4; i++)
+    if(curScore > savedScores[i]){
+      pos = i;
+      break;
+      }
+  // Create the String that will be saved
+  stringToSave[0] = posString[pos];
+  for(i = 0; i < 3; i++) {
+    stringToSave[3+i] = highscoreNames[i];
+    stringToSave[13+i] = scoreString[i];
+  }
+
+  // move scores that the current score passes forward
+  // not neccessary if the current score will be in pos 4
+  if(pos < 4){
+    for (i = 3; i > pos; i--){        
+      savedScores[i] = savedScores[i-1];
+      for(j = 0; j < 16; j++)
+        savedScoreStrings[i][j] = savedScoreStrings[i-1][j];
+      savedScoreStrings[i][0] = posString[i];
+    }
+
+  }
+  // enter current score into right position
+  savedScores[pos] = curScore;
+  for (i = 0; i < 16; i++) 
+    savedScoreStrings[pos][i] = stringToSave[i];
+    PORTE = 0x7;
+    gameState = 6;
+}
+
+void viewScore(){
+    int i=0;
+    for(i=0;i<4;i++){
+        display_string(i,savedScoreStrings[i]);
+        display_update();
+    }
+    if(btn1 == 1){
+        gameState = 0;
+        while (btn1 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn2 == 1){
+        gameState = 0;
+        while (btn2 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn3 == 1){
+        gameState = 0;
+        while (btn3 == 1){
+            checkButtons();
+        }
+    }
+    else if(btn4 == 1){
+        gameState = 0;
+        while (btn4 == 1){
+            checkButtons();
+        }
     }
 }
 
@@ -68,10 +146,11 @@ void user_isr( void )
   else if(gameState == 2) credits(); // credits
   else if(gameState == 3) game();
   else if(gameState == 4) credits(); // game over
-  else if (gameState == 5) highscore(); // enter highscore
-  else credits(); // view highscore
+  else if (gameState == 5) enterHighScore(); // enter highscore
+  else viewScore(); // view highscore
 
   movementClock++;
 
   IFSCLR(0) = (1 << 8); 
 }
+

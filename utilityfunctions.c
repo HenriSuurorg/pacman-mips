@@ -77,7 +77,7 @@ void labinit( void ){
   TRISD = TRISD & 0xf01f;
   TRISD += 0xfe0;
   TRISF = TRISF | (0x20);
-
+  PORTE = 0x7;
   T2CONSET = 0 << 15; // turn timer on
   TMR2 = 0; // set timer to 0
   T2CONSET = 0x70; // set the prescaling to 1:256 
@@ -175,8 +175,10 @@ void checkCollisionWithGhost(entity *pacman, entity *ghost){
 
   if(collisionBool == 1){
     pacman->lives = pacman->lives - 1;
+    PORTE = PORTE >> 1;
     if(pacman->lives == 0){
-      gameState = 4;
+      PORTE=0x7;
+      gameState = 0;
     }
     else {
       // move pacman and ghost to starting positions

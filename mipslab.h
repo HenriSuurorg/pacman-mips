@@ -64,3 +64,12 @@ int btn1;
 int btn2;
 int btn3;
 int btn4;
+
+// int btn3count;
+// int btn4count;
+char* highscoresNames[4];
+int highscoreIndex;
+int highscores[4];
+char highScoreStringSaved[16];
+
+int livesAtTheEndOfTheGame;
